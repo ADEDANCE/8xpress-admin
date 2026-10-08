@@ -7,6 +7,7 @@ type InputProps = {
   value?: string;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   error?: string;
+   className?: string;
 };
 
 const Input = ({
@@ -17,10 +18,11 @@ const Input = ({
   value,
   onChange,
   error,
+  className,
   ...props
 }:InputProps) => {
   return (
-    <div className="flex flex-col gap-2">
+    <div className={`flex flex-col gap-2 ${className}`}>
       {label && (
         <label htmlFor={name} className="text-sm font-medium text-gray-300">
           {label}
