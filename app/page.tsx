@@ -1,10 +1,19 @@
+"use client";
 import Button from "./component/ui/Button";
 import Input from "./component/ui/input";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+
+    const router = useRouter();
+
+   const handleLogin = () => {
+    router.push("/dashboard");
+  };
+
   return (
     <div className="bg-zinc-50 font-sans dark:bg-black">
       <main className="mx-auto flex">
@@ -35,6 +44,7 @@ export default function Home() {
             <Button
               className="w-3/4"
               text="Sign in"
+              onClick={handleLogin}
               icon={<ArrowRight size={18} />}
             />
           </div>
