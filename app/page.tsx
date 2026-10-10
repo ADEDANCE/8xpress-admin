@@ -15,7 +15,7 @@ export default function Home() {
   };
 
   return (
-    <div className="bg-zinc-50 font-sans dark:bg-black">
+    <div className="font-sans bg-black">
       <main className="mx-auto flex">
         <div className=" w-full  md:w-1/2 px-16 py-16 text-gray-300">
           <p className=" text-red-600 mt-">8XPRESS WORKSPACE</p>
