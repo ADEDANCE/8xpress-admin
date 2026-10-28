@@ -10,7 +10,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <SidebarInset>
         <AppTopbar />
 
-        <main className="flex-1 p-6">{children}</main>
+        <main className="flex-1 p-6 bg-[#F1F5F9] ">{children}</main>
       </SidebarInset>
     </SidebarProvider>
   );
