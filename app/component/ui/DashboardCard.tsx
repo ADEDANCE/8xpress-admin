@@ -16,7 +16,7 @@ const  DashboardCard = ({
   iconColor = "",
 }: DashboardCardProps) => {
   return (
-    <div className="flex items-center gap-4 rounded-xl border border-gray-200 bg-black p-4 shadow-sm transition-shadow hover:shadow-md w-full ">
+    <div className="flex items-center gap-4 rounded-xl border border-gray-200 bg-white p-4 shadow-sm transition-shadow hover:shadow-md w-full text-black ">
       <div
         className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-yellow-400 text-red-500`}
       >
@@ -24,10 +24,10 @@ const  DashboardCard = ({
       </div>
 
       <div className="flex flex-col gap-1">
-        <h2 className="text-2xl font-bold tracking-tight text-white">
+        <h2 className="text-2xl font-bold tracking-tight ">
           {quantity}
         </h2>
-        <p className="text-sm font-medium text-gray-300">{title}</p>
+        <p className="text-sm font-medium text-gray-600">{title}</p>
       </div>
 
      
