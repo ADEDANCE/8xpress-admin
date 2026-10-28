@@ -10,7 +10,7 @@ type ButtonProps = {
 const Button = ({ text, className = "", icon, onClick }: ButtonProps) => {
   return (
     <button
-      className={`bg-red-600 text-white px-2 py-2 rounded-lg flex gap-2  items-center justify-center ${className}`}
+      className={`text-white px-2 py-2 rounded-lg flex   items-center justify-center ${className}`}
       onClick={onClick}
     >
       {text}
