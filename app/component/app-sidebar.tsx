@@ -47,7 +47,7 @@ const orderItems = [
 const managementItems = [
   {
     title: "Menu",
-    url: "/dashboard/menu",
+    url: "/dashboard/Management/menu",
     icon: Utensils,
   },
   {
