@@ -62,7 +62,7 @@ const managementItems = [
   },
   {
     title: "Settings",
-    url: "/dashboard/settings",
+    url: "/dashboard/Management/setting",
     icon: Settings,
   },
 ];
