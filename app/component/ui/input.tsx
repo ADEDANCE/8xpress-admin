@@ -36,7 +36,7 @@ const Input = ({
         placeholder={placeholder}
         value={value}
         onChange={onChange}
-        className={`w-full rounded-lg border bg-zinc-900 px-4 py-3 text-white outline-none placeholder:text-gray-500
+        className={`w-full rounded-lg border  px-4 py-3 text-white outline-none placeholder:text-gray-500
           ${
             error
               ? "border-red-500"
