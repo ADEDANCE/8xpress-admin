@@ -35,7 +35,7 @@ const IncomingOrders = ({orderID,name, orders,delivaryType,ordertime,totalPrice}
             {/* button */}
 
            <Button text="Start preparing"
-           className="  mt-2 bg-black text-white rounded-xl"
+           className="  mt-2 bg-black text-white rounded-lg"
           icon={<IoIosArrowForward />}
           />
         </div>
