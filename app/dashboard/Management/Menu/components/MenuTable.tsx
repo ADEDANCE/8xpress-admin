@@ -40,7 +40,7 @@ const MenuTable = ({
                   width={50}
                   height={40}
                   unoptimized
-                  className="rounded-lg"
+                  className="rounded-lg w-12.5 h-10 cover"
                 />
 
                 <p className="text-black font-semibold">{item.name}</p>
