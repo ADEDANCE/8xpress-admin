@@ -37,19 +37,84 @@ export default function MenuPage() {
   const [menuError, setMenuError] = useState("");
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
 
+  // editing
+  const [isEditLoading, setIsEditLoading] = useState(false);
+  const [editError, setEditError] = useState("");
+  const [editSuccess, setEditSuccess] = useState("");
+
   const [selectedMenuItem, setSelectedMenuItem] = useState<MenuItem | null>(
     null,
   );
 
-  const handleSaveEdit = (updatedItem: MenuItem) => {
-    setMenuItems((prevItems) =>
-      prevItems.map((item) =>
-        item.id === updatedItem.id ? updatedItem : item,
-      ),
-    );
+  const handleSaveEdit = async (updatedItem: MenuItem, image: File | null) => {
+    setIsEditLoading(true);
+    setEditError("");
+    setEditSuccess("");
 
-    setIsEditOpen(false);
-    setSelectedMenuItem(null);
+    try {
+      //  Get the authentication token
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        throw new Error("You are not authenticated. Please log in again.");
+      }
+
+      // Keep the existing image URL unless a new image was selected
+      let imageUrl = updatedItem.image_url;
+
+      //  Upload the replacement image to Cloudinary if necessary
+      if (image) {
+        imageUrl = await uploadImage(image);
+      }
+
+      //  Send the PATCH request
+      const response = await fetch(
+        `https://eightxpress-backend.onrender.com/menu/${updatedItem.id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            name: updatedItem.name,
+            description: updatedItem.description,
+            price: updatedItem.price,
+            image_url: imageUrl,
+            is_available: updatedItem.is_available,
+          }),
+        },
+      );
+
+      //  Check the response
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.detail || "Failed to update menu item.");
+      }
+
+      //  Update the frontend with the saved information
+      setMenuItems((prevItems) =>
+        prevItems.map((item) =>
+          item.id === updatedItem.id
+            ? { ...item, ...updatedItem, image_url: imageUrl }
+            : item,
+        ),
+      );
+
+      setIsEditOpen(false);
+      setSelectedMenuItem(null);
+    } catch (err) {
+      console.error("Update menu item error:", err);
+
+      setEditError(
+        err instanceof Error
+          ? err.message
+          : "Something went wrong. Please try again.",
+      );
+    } finally {
+      setIsEditLoading(false);
+    }
   };
 
   const handleEdit = (item: MenuItem) => {
@@ -255,6 +320,9 @@ export default function MenuPage() {
         />
 
         <EditMenuModal
+          isLoading={isEditLoading}
+          error={editError}
+          success={editSuccess}
           item={isEditOpen ? selectedMenuItem : null}
           onClose={() => {
             setIsEditOpen(false);
