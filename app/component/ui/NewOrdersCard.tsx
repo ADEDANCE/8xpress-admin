@@ -5,10 +5,11 @@ type NewOrdersCardProps = {
   orderTime: string;
   name: string;
   orders: string[];
-  deliveryAddress: string;
+  deliveryAddress?: string;
+  deliveryType: "pickup" | "delivery";
   status?: string;
   buttonText?: string;
-}
+};
 
 const NewOrdersCard = ({
   orderID,
@@ -16,6 +17,9 @@ const NewOrdersCard = ({
   name,
   orders,
   deliveryAddress,
+  deliveryType,
+  status,
+  buttonText,
 }: NewOrdersCardProps) => {
   return (
     <div className="flex flex-row w-full rounded-lg overflow-hidden mt-4">
@@ -26,24 +30,28 @@ const NewOrdersCard = ({
       </div>
       <div className=" bg-white py-4 px-4 w-full">
         <div className=" flex justify-between">
-           <div className=" flex flex-row gap-2">
-          <p> {orderID}</p>
-          <p className=" text-red-500">{orderTime}</p>
+          <div className=" flex flex-row gap-2">
+            <p> {orderID}</p>
+            <p className=" text-red-500">{orderTime}</p>
+          </div>
+
+          <p className=" text-green-500 font-semibold">Pickup</p>
         </div>
 
-        <p className=" text-green-500 font-semibold">Pickup</p>
-        </div>
-       
         <h2 className=" font-semibold">{name}</h2>
-       <div className="border-b border-dotted text-gray-400 flex gap-4">
-  {orders.map((order, index) => (
-    <p key={index}>{order}</p>
-  ))}
-</div>
-        <div className=" flex justify-between mt-2 gap-4 ">
-          
-          <p>Deliver to: {deliveryAddress}</p>
-          <Button text="Start Preparing" className=" bg-black text-white" />
+        <div className="border-b border-dotted text-gray-400 flex gap-4">
+          {orders.map((order, index) => (
+            <p key={index}>{order}</p>
+          ))}
+        </div>
+        <div className="flex items-center mt-2 gap-4">
+          {deliveryType === "delivery" && deliveryAddress && (
+            <p>Deliver to: {deliveryAddress}</p>
+          )}
+
+          <div className="ml-auto">
+            <Button text="Start Preparing" className="bg-black text-white" />
+          </div>
         </div>
       </div>
     </div>
