@@ -67,7 +67,7 @@ export default function MenuPage() {
         imageUrl = await uploadImage(image);
       }
 
-      //  Send the PATCH request
+      //  Send the PUT request
       const response = await fetch(
         `https://eightxpress-backend.onrender.com/menu/${updatedItem.id}`,
         {
@@ -137,15 +137,49 @@ export default function MenuPage() {
     );
   };
 
-  const handleConfirmDelete = (item: MenuItem) => {
-    setMenuItems((prevItems) =>
-      prevItems.filter((menuItem) => menuItem.id !== item.id),
-    );
+  const handleConfirmDelete = async (item: MenuItem) => {
+    try {
+      const token = localStorage.getItem("token");
 
-    setIsDeleteOpen(false);
-    setSelectedMenuItem(null);
+      if (!token) {
+        throw new Error("Authentication token not found. Please log in again.");
+      }
+
+      //  Sending the DELETE request
+      const response = await fetch(
+        `https://eightxpress-backend.onrender.com/menu/${item.id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to delete menu item");
+      }
+
+      // Update frontend only after successful backend deletion
+      setMenuItems((prevItems) =>
+        prevItems.filter((menuItem) => menuItem.id !== item.id),
+      );
+
+      // Closing the modal
+      setIsDeleteOpen(false);
+      setSelectedMenuItem(null);
+    } catch (error) {
+      console.error("Delete menu item error:", error);
+
+      alert(
+        error instanceof Error
+          ? error.message
+          : "Something went wrong while deleting the menu item",
+      );
+    }
   };
-
   const handleImageChange = (file: File) => {
     setImage(file);
     setImagePreview(URL.createObjectURL(file));
@@ -200,6 +234,9 @@ export default function MenuPage() {
       if (!response.ok) {
         throw new Error(data.detail || "Failed to add menu item.");
       }
+
+      // Add the newly created item to the menu state
+      setMenuItems((prevItems) => [...prevItems, data as MenuItem]);
 
       setSuccess("Menu item added successfully!");
 
